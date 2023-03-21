@@ -1,10 +1,5 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, make_response
 from apscheduler.schedulers.background import BackgroundScheduler
-from apscheduler.triggers.cron import CronTrigger
-from pytz import utc
-from datetime import datetime
-import json
-import time
 from libs import worker
 from views import jobs_view
 
@@ -15,7 +10,7 @@ scheduler.start()
 @app.route('/jobs/<id>', methods=['DELETE'])
 def delete(id):
     scheduler.remove_job(id)
-    return
+    return make_response('', 204)
 
 @app.route('/jobs', methods=['POST'])
 def create():
@@ -35,16 +30,3 @@ def create():
 def list():
     jobs = scheduler.get_jobs()
     return jobs_view.list_jobs(jobs)
-
-## Remove job
-# - ID
-
-## Add job
-# - ID
-# - interval
-# - URL
-# - File Name
-
-# scheduler.add_job(func=worker.job_function, args=["\n1 seconds", "https://www.qwewqr.org/"], trigger='interval', seconds=10)
-# scheduler.add_job(func=worker.job_function, args=["\n1 seconds", "https://www.google.com/"], trigger='interval', seconds=7)
-# scheduler.add_job(func=worker.job_function, args=["\n1 seconds", "https://www.wikipedia.org/"], trigger='interval', seconds=1)
