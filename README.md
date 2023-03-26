@@ -10,7 +10,7 @@ This is a Flask project that allows users to schedule jobs that will continuousl
 #### Installation
 ```
 pip install -r requirements.txt
-flask --app app run
+python3 app.py
 ```
 
 ### API
