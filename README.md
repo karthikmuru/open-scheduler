@@ -30,8 +30,8 @@ python3 app.py
   
 - [x] Create a worker to check the status of given URL and log the time and status to the given log file. 
 - [ ] Trigger a mail when the page status changes.
-- [ ] Persist all job details in the database.
+- [x] Persist all job details in the database.
 - [ ] Add support for accounts and users.
-- [ ] Restart all running jobs when server is restarted.
+- [x] Restart all running jobs when server is restarted.
 - [ ] Dashboard to create and view the jobs and the logs.
 - [ ] Execute a user defined task on the URL and create triggers for specific when certain events are observed.
