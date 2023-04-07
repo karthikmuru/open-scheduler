@@ -1,22 +1,25 @@
+import os
 import requests
-import time
+from flask import Flask
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
-def job_function(url, file_name):
+from ..models import Job, Log
 
-    current_time = time.ctime()
+engine = create_engine(os.environ['SQLALCHEMY_DATABASE_URI'])
+session = (sessionmaker(bind=engine))()
+
+def job_function(job : Job):
 
     try:
-        response = requests.get(url)
+        response = requests.get(job.url)
         status_code = response.status_code
     except:
-        status_code = -1
+        status_code = 503
     finally:
-        status_string = "%s,%s,%s\n" % (str(current_time), url, status_code)
-
-    write_to_file(f'{file_name}.csv', status_string)
+        # status_string = "%s,%s,%s\n" % (str(current_time), job.url, status_code)
+        log = Log(job_id=job.id, status=int(status_code))
+        session.add(log)
+        session.commit()
 
     return
-
-def write_to_file(filename, text):
-    with open(filename, 'a') as f:
-        f.write(text)
